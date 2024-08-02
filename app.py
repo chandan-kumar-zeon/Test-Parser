@@ -25,7 +25,7 @@ if uploaded_file:
         with st.spinner("Processing document..."):
             query_engine_llama, query_engine_paddle, images = process_docs(doc_path)
     except Exception as e:
-        st.warning(e.message)
+        st.warning(e)
 
 
     st.markdown("### Extracted Images:")
