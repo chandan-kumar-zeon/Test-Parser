@@ -35,8 +35,9 @@ if uploaded_file:
     query = st.text_input("Enter your Query:")
 
     if st.button("Ask"):
-        response1, response2 = generate_response(query, query_engine_llama, query_engine_paddle)
-        
+        with st.spinner("Generating Output..."):
+            response1, response2 = generate_response(query, query_engine_llama, query_engine_paddle)
+            
         st.session_state.queries.append(f"Query: {query}")
         st.session_state.responses1.append(f"LLama-Parser: {response1}\n")
         st.session_state.responses2.append(f"Paddle-OCR  : {response2}\n")
