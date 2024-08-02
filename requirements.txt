@@ -1,0 +1,10 @@
+llama-parse
+llama-index
+paddlepaddle
+paddleocr
+pdf2image
+numpy
+Pillow
+python-dotenv
+streamlit
+os
