@@ -1,2 +1,2 @@
 # Test-Parser
-Test the parsing quality using PaddleOCR vs Llama-Parser.
+Compare the parsing quality of PaddleOCR vs Llama-Parser.
