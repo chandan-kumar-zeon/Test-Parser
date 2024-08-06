@@ -23,9 +23,19 @@ if uploaded_file:
 
     try:
         with st.spinner("Processing document..."):
-            query_engine_llama, query_engine_paddle, images = process_docs(doc_path)
+            query_engine_llama, query_engine_paddle, images, docsllama, docspaddle = process_docs(doc_path)
     except Exception as e:
         st.warning(e)
+    
+    st.markdown("### Extracted Text by Llama-Parser :")
+    for page_number, txt in enumerate(docsllama):
+        st.markdown(f"#### Page {page_number+1}")
+        st.info(txt)
+
+    st.markdown("### Extracted Text by Paddle-OCR :")
+    for page_number, txt in enumerate(docspaddle):
+        st.markdown(f"#### Page {page_number+1}")
+        st.info(txt)
 
 
     st.markdown("### Extracted Images:")
@@ -33,8 +43,8 @@ if uploaded_file:
         st.image(img, use_column_width=True)
 
     query = st.text_input("Enter your Query:")
-
-    if st.button("Ask"):
+    
+    if st.button("Ask") and query:
         response1, response2 = generate_response(query, query_engine_llama, query_engine_paddle)
         
         st.session_state.queries.append(f"Query: {query}")

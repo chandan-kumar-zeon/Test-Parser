@@ -41,6 +41,7 @@ def process_docs(doc_path):
         num_workers=2
     )
     documents = parser.load_data(doc_path)
+    docs = [doc.text for doc in documents]
     markdown_parser = MarkdownElementNodeParser(llm=Settings.llm, num_workers=8)
     nodes = markdown_parser.get_nodes_from_documents(documents=documents)
     base_nodes, objects = markdown_parser.get_nodes_and_objects(nodes)
@@ -67,13 +68,14 @@ def process_docs(doc_path):
         result = ocr.ocr(np.array(image), cls=True)
         text = "\n".join([line[1][0] for line in result[0]])
         documents2.append(text)
+    docs2 = documents2
     documents2 = [Document(text=text) for text in documents2]
     nodes2 = markdown_parser.get_nodes_from_documents(documents=documents2)
     base_nodes2, objects2 = markdown_parser.get_nodes_and_objects(nodes2)
     recursive_index2 = VectorStoreIndex(embed_model=Settings.embed_model, nodes=base_nodes2 + objects2)
     query_engine_paddle = recursive_index2.as_query_engine(similarity_top_k=10)
 
-    return query_engine_llama, query_engine_paddle, images
+    return query_engine_llama, query_engine_paddle, images, docs, docs2
 
 def generate_response(query, query_engine_llama, query_engine_paddle):
     """
