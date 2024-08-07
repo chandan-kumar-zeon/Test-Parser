@@ -62,7 +62,7 @@ def process_docs(doc_path):
             images.append(img)
 
     ocr = PaddleOCR(use_angle_cls=True, lang='en', use_gpu=True)
-    images_pdf = convert_from_path(doc_path, poppler_path=r"./poppler-24.02.0/Library/bin")
+    images_pdf = convert_from_path(doc_path, 300)
     documents2 = []
     for image in images_pdf:
         result = ocr.ocr(np.array(image), cls=True)
